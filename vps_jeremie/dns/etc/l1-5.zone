@@ -1,0 +1,26 @@
+$ORIGIN l1-5.ephec-ti.be.
+$TTL 3600
+
+@ IN SOA ns.l1-5.ephec-ti.be. admin.l1-5.ephec-ti.be. (
+        2025052605  ; Augmente le numéro de série (YYYYMMDDXX)
+        14400       ; Rafraîchissement
+        3600        ; Tentatives en cas d'échec
+        2419200     ; Expiration
+        86400       ; TTL minimum
+)
+
+@ IN NS ns.l1-5.ephec-ti.be.
+@ IN MX 10 mail.l1-5.ephec-ti.be.
+@ IN TXT "v=spf1 mx -all"
+ns.l1-5.ephec-ti.be. IN A 54.36.181.37
+www.l1-5.ephec-ti.be. IN A 54.36.181.37
+blog.l1-5.ephec-ti.be. IN A 54.36.181.37
+mail.l1-5.ephec-ti.be. IN A 54.36.181.37
+mail._domainkey IN TXT ( "v=DKIM1; h=sha256; k=rsa; "
+          "p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqyRtYt4rzVffS+ZtoSxQL5A7U7b5Oqm0yWNGzXlqmgPOTepQcBsw3psZc9oGYq6jNxwJaU0cQHwr+G+6G8GzL9hkY3hCdEEz4l+AXG25xaYfRa/lcGlEj+YSXzpM2+6X5uZtaqKM0m5elFe76E2dojLXeRNgETtfsqPZPl429gI3JPSWFBJd99eITH7j1Jo3xkWNhypT7wOcW1"
+          "nF2XJuRuuRYhC7pa6iAethAqthF+HveJ2MtPczQ0Ef6FwviAtgYA53tFzJQ+MKFqUrDe7XZInxEmJbxj9C0x/HgfKntZbnDoeTTuZmPnKAArWtAr/LB+7s7pkLXBWwArof7ASgXQIDAQAB" )  ; ----- DKIM key mail for l1-5.ephec-ti.be
+_dmarc.l1-5.ephec-ti.be. IN TXT "v=DMARC1; p=quarantine; rua=mailto:jeremie@l1-5.ephec-ti.be; ruf=mailto:jeremie@l1-5.ephec-ti.be; sp=quarantine; fo=1; ri=86400"
+
+;@ IN A 54.36.181.37
+;www.l1-5.ephec-ti.be. IN CNAME @
+;blog.l1-5.ephec-ti.be. IN CNAME @

@@ -1,0 +1,74 @@
+version: "3.9"
+
+services:
+  db:
+    image: jeremie78/database:1.0
+    cap_add:
+      - SYS_NICE
+    environment:
+      - MYSQL_DATABASE=woody
+      - MYSQL_ROOT_PASSWORD=pass
+    deploy:
+      replicas: 1
+    networks:
+      default:
+        aliases:
+          - db
+  produits:
+    image: jeremie78/produits:1.0
+    networks:
+      default:
+        aliases:
+          - produits
+    deploy:
+      replicas: 2
+
+  commandes:
+    image: jeremie78/commandes:1.0
+    networks:
+      default:
+        aliases:
+          - commandes
+    deploy:
+      replicas: 2
+
+  autres:
+    image: jeremie78/autres:1.0
+    networks:
+      default:
+        aliases:
+          - autres
+    deploy:
+      replicas: 2
+
+  front:
+    image: jeremie78/front:1.0
+    deploy:
+      replicas: 2
+    networks:
+      default:
+        aliases:
+          - front
+
+  reverse:
+    image: jeremie78/reverse-proxy:2.5
+    ports:
+      - "80:8080"
+    depends_on:
+      - front
+      - api
+    deploy:
+      replicas: 2
+    networks:
+      default:
+        aliases:
+        - reverse
+
+  redis:
+    image: redis
+    deploy:
+      replicas: 1
+    networks:
+      default:
+        aliases:
+          - redis

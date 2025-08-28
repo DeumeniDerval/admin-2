@@ -1,0 +1,62 @@
+networks:
+  dmz:
+    driver: overlay
+    name: dmz
+  db_net:
+    driver: overlay
+    name: db_net
+services:
+  nginx:
+    image: nginx:stable
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /home/debian/web/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - /home/debian/web/data:/var/www/html
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    networks:
+      dmz:
+        aliases:
+          - nginx
+      default:
+        aliases:
+          - nginx
+    deploy:
+      mode: global
+  db:
+    image: mariadb
+    env_file:
+      - /home/debian/web/db/config/root.env
+      - /home/debian/web/db.env
+    volumes:
+      - /home/debian/web/db/config/woodytoys.sql:/docker-entrypoint-initdb.d/woodytoys.sql
+      - /home/debian/web/db/config/my-resolve.cnf:/etc/mysql/conf.d/my-resolve.cnf
+      - /home/debian/web/db/data:/var/lib/mysql
+    networks:
+      db_net:
+        aliases:
+          - db
+      default:
+        aliases:
+          - db
+    deploy:
+      mode: global
+  php:
+    image: jeremie78/php:1.0
+    volumes:
+      - /home/debian/web/data:/var/www/html
+    env_file:
+      - /home/debian/web/db.env
+    networks:
+      dmz:
+        aliases:
+          - php
+      db_net:
+        aliases:
+          - php
+      default:
+        aliases:
+          - php
+    deploy:
+      mode: global

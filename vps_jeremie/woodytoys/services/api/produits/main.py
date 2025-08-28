@@ -53,15 +53,15 @@ def prepare_order(order_id, order):
 
 
 def order_watcher():
-    pubsub = redis_broker.pubsub()
+    broker=redis_broker.pubsub()
     pubsub.subscribe('orders')
     for message in pubsub.listen():
-        if message['type'] == 'message':
-            data = json.loads(message["data"])
+        if message['type']=='message':
+            data=json.loads(message["data"])
             prepare_order(data["order_id"],data["order"])
 
 
 if __name__ == "__main__":
-    thread = threading.Thread(target=order_watcher)
+    thread=threading.Thread(target=order_watcher)
     thread.start()
     woody.launch_server(app, host='0.0.0.0', port=5000)

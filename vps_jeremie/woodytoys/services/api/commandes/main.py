@@ -6,6 +6,8 @@ from flask_cors import CORS
 
 import woody
 
+import json
+
 import redis
 
 app = Flask('my_api')
@@ -27,7 +29,7 @@ def create_order():
     product = request.args.get('order')
     order_id = str(uuid.uuid4())
 
-    redis_broker.publish("order", json.dumps({order_id:order_id,order:order}))
+    redis_broker.publish("orders", json.dumps({"order_id":order_id,"order":product}))
 
     return f"Your process {order_id} has been created with this product : {product}"
 

@@ -15,7 +15,7 @@ services:
         aliases:
           - db
   produits:
-    image: jeremie78/produits:1.0
+    image: jeremie78/produits:2.0
     networks:
       default:
         aliases:
@@ -24,7 +24,7 @@ services:
       replicas: 2
 
   commandes:
-    image: jeremie78/commandes:1.0
+    image: jeremie78/commandes:2.0
     networks:
       default:
         aliases:
